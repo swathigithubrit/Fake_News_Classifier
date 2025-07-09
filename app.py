@@ -28,8 +28,12 @@ st.title("📰 Fake / Real News Classifier")
 user_input = st.text_area("Enter News Article Text")
 
 if st.button("Classify"):
-    cleaned = clean_text(user_input)
-    vectorized = vectorizer.transform([cleaned])
-    prediction = model.predict(vectorized)
-    result = "REAL" if prediction[0] == 1 else "FAKE"
-    st.subheader(f"Prediction: {result}")
+    if len(user_input.strip().split()) < 10:
+        st.warning("⚠️ Please enter a longer news article. Short sentences may give unreliable results.")
+    else:
+        cleaned = clean_text(user_input)
+        vectorized = vectorizer.transform([cleaned])
+        prediction = model.predict(vectorized)
+        result = "REAL" if prediction[0] == 1 else "FAKE"
+        st.subheader(f"Prediction: {result}")
+
